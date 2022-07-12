@@ -1,6 +1,9 @@
 package com.emlcoding.springboot.backend.apirest.models.entity;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -21,7 +24,7 @@ public class Cliente implements Serializable{
 	private static final long serialVersionUID = 1L; // Requerido por el protocolo Serializable
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 	
 	
@@ -29,13 +32,12 @@ public class Cliente implements Serializable{
 	private String apellido;
 	private String email;
 	@Column(name = "create_at") // El @Column no es necesario en las demas propiedades porque se van a llamar igual en bbdd que en java
-	@Temporal(TemporalType.DATE)
-	private Date createAt;
+	private LocalDate createAt;
 	
 	// Esto se ejecuta automaticamente cuando se vaya a insertar un nuevo cliente en la bbdd
 	@PrePersist
-	public void prePersist() {
-		createAt = new Date();
+	public void prePersist() throws ParseException {
+		createAt = LocalDate.now();
 	}
 	
 	public UUID getId() {
@@ -62,10 +64,10 @@ public class Cliente implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Date getCreateAt() {
+	public LocalDate getCreateAt() {
 		return createAt;
 	}
-	public void setCreateAt(Date createAt) {
+	public void setCreateAt(LocalDate createAt) {
 		this.createAt = createAt;
 	}
 	

@@ -2,6 +2,7 @@ package com.emlcoding.springboot.backend.apirest.models.dao;
 
 import java.util.UUID;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -13,6 +14,7 @@ public interface IClienteDao extends CrudRepository<Cliente, Long>{
 	@Query("SELECT c FROM Cliente c WHERE c.id = ?1")
 	Cliente findByUUID(UUID id);
 	
-	@Query("DELETE FROM Cliente c WHERE c.id = ?1")
+	@Modifying
+	@Query("DELETE FROM Cliente c WHERE id = :id")
 	void deleteCustom(UUID id);
 }

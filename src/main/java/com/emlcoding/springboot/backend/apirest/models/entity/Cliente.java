@@ -16,6 +16,10 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="clientes")// El nombre de la tabla en la BBDD
@@ -27,12 +31,24 @@ public class Cliente implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 	
-	
+	// @NotEmpty, @Size, @Email son validaciones propias de Spring. Para tener acceso a ellas hay que añadir en el pom.xml la dependencia spring-boot-starter-validation
+	@NotEmpty
+	@Size(min=4, max=20, message="el tamaño tiene que estar entre 4 y 12")
 	private String nombre;
+	
+	@NotEmpty
 	private String apellido;
+	
+	@NotEmpty
+	@Email(message="no es una dirección de correo válida")
 	private String email;
+	
+	// El @NotNull para los campos Date es lo mismo que el @NotEmpty para los demás
+	@NotNull(message = "No puede estar vacio")
 	@Column(name = "create_at") // El @Column no es necesario en las demas propiedades porque se van a llamar igual en bbdd que en java
 	private LocalDate createAt;
+	
+	private String foto;
 	
 	// Esto se ejecuta automaticamente cuando se vaya a insertar un nuevo cliente en la bbdd
 	@PrePersist
@@ -69,6 +85,14 @@ public class Cliente implements Serializable{
 	}
 	public void setCreateAt(LocalDate createAt) {
 		this.createAt = createAt;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 	
 	

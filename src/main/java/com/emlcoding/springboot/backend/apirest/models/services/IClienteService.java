@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 
 import com.emlcoding.springboot.backend.apirest.models.entity.Cliente;
+import com.emlcoding.springboot.backend.apirest.models.entity.Region;
 
 public interface IClienteService {
 
@@ -18,4 +19,6 @@ public interface IClienteService {
 	public Cliente findById(UUID id);
 	
 	public void delete(UUID id);
+	
+	public List<Region> findAllRegiones();
 }

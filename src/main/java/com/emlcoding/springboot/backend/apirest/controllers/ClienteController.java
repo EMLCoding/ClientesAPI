@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.emlcoding.springboot.backend.apirest.models.entity.Cliente;
 import com.emlcoding.springboot.backend.apirest.models.entity.CustomError;
+import com.emlcoding.springboot.backend.apirest.models.entity.Region;
 import com.emlcoding.springboot.backend.apirest.models.services.IClienteService;
 
 @CrossOrigin(origins= {"http://localhost:4200"}) // Para permitir el traspaso de recursos entre cliente y servidor. En este caso se permite para por ejemplo una aplicacion con angular como cliente
@@ -128,6 +129,7 @@ public class ClienteController {
 			clienteActual.setApellido(cliente.getApellido());
 			clienteActual.setNombre(cliente.getNombre());
 			clienteActual.setEmail(cliente.getEmail());
+			clienteActual.setRegion(cliente.getRegion());
 			
 			clienteActualizado = clienteService.save(clienteActual);
 		} catch (DataAccessException e) {
@@ -206,6 +208,11 @@ public class ClienteController {
 		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
 		
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
+	}
+	
+	@GetMapping("/clientes/regiones")
+	public List<Region> getAllRegiones() {
+		return clienteService.findAllRegiones();
 	}
 	
 	private String getExtension(String nombreArchivo) {

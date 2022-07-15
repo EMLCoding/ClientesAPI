@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.emlcoding.springboot.backend.apirest.models.dao.IClienteDao;
 import com.emlcoding.springboot.backend.apirest.models.entity.Cliente;
+import com.emlcoding.springboot.backend.apirest.models.entity.Region;
 import com.emlcoding.springboot.backend.apirest.models.services.IClienteService;
 
 @Service
@@ -49,7 +50,10 @@ public class ClienteServiceImpl implements IClienteService{
 		clienteDao.deleteCustom(id);
 	}
 
-
-	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Region> findAllRegiones() {
+		return clienteDao.findAllRegiones();
+	}
 
 }

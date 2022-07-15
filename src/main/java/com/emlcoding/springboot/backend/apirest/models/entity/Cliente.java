@@ -9,9 +9,12 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,6 +23,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="clientes")// El nombre de la tabla en la BBDD
@@ -44,11 +49,17 @@ public class Cliente implements Serializable{
 	private String email;
 	
 	// El @NotNull para los campos Date es lo mismo que el @NotEmpty para los demás
-	@NotNull(message = "No puede estar vacio")
+	//@NotNull(message = "No puede estar vacio")
 	@Column(name = "create_at") // El @Column no es necesario en las demas propiedades porque se van a llamar igual en bbdd que en java
 	private LocalDate createAt;
 	
 	private String foto;
+	
+	@NotNull(message="es obligatorio seleccionar una región")
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="region_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Region region;
 	
 	// Esto se ejecuta automaticamente cuando se vaya a insertar un nuevo cliente en la bbdd
 	@PrePersist
@@ -93,6 +104,14 @@ public class Cliente implements Serializable{
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+
+	public Region getRegion() {
+		return region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
 	}
 	
 	

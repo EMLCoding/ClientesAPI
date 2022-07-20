@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,6 +62,7 @@ public class ClienteController {
 		return clienteService.findAll(pageable);
 	}
 	
+	@Secured({"ROLE_ADMINN", "ROLE_USERR"})
 	@GetMapping("/cliente/{id}")
 	public ResponseEntity<?> getCliente(@PathVariable UUID id) {
 		Cliente cliente = null;
@@ -85,6 +87,7 @@ public class ClienteController {
 	}
 	
 	// El @Valid es para utilizar las validaciones de la clase Cliente. El objeto BindingResult lleva todos los mensajes de error de la validacion
+	@Secured({"ROLE_ADMIN"})
 	@PostMapping("/cliente")
 	public ResponseEntity<?> createCliente(@Valid @RequestBody Cliente cliente, BindingResult result) {
 		Cliente clienteCreado = null;
@@ -111,6 +114,7 @@ public class ClienteController {
 		return new ResponseEntity<Cliente>(clienteCreado, HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@PutMapping("/cliente/{id}")
 	public ResponseEntity<?> update(@RequestBody Cliente cliente, @PathVariable UUID id) {
 		
@@ -143,6 +147,7 @@ public class ClienteController {
 		return new ResponseEntity<Cliente>(clienteActualizado, HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@DeleteMapping("/cliente/{id}")
 	public ResponseEntity<?> deletecliente(@PathVariable UUID id) {
 		try {
@@ -157,6 +162,7 @@ public class ClienteController {
 		return new ResponseEntity<String>("Se ha eliminado el cliente correctamente", HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@PostMapping("/clientes/upload")
 	public ResponseEntity<?> uploadImage(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") UUID id) {
 		
@@ -210,6 +216,7 @@ public class ClienteController {
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
 	}
 	
+	@Secured({"ROLE_ADMIN"})
 	@GetMapping("/clientes/regiones")
 	public List<Region> getAllRegiones() {
 		return clienteService.findAllRegiones();

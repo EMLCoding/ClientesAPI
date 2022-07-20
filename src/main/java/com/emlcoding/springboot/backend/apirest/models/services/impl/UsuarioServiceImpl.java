@@ -37,6 +37,7 @@ public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService{
 			throw new UsernameNotFoundException("Error en el login: no existe el usuario '" + username + "' en el sistema");
 		}
 		
+		// Es necesario recoger los roles de esta forma para que funcione la securizacion (@Secured) de las llamadas a los metodos del controller
 		List<GrantedAuthority> authorities = usuario.getRoles()
 				.stream()
 				.map(rol -> new SimpleGrantedAuthority(rol.getNombre()))

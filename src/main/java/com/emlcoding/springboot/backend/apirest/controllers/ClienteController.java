@@ -62,7 +62,7 @@ public class ClienteController {
 		return clienteService.findAll(pageable);
 	}
 	
-	@Secured({"ROLE_ADMINN", "ROLE_USERR"})
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/cliente/{id}")
 	public ResponseEntity<?> getCliente(@PathVariable UUID id) {
 		Cliente cliente = null;
